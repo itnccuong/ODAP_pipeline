@@ -39,3 +39,39 @@ ODAP_pipeline/
 
 ### Airflow
 - **Airflow Webserver**: 8082
+
+
+# How to start
+## Build the airflow Dockerfile
+```
+docker compose build airflow-webserver
+```
+## Build the docker compose
+```
+docker compose up -d
+
+(if you want to down)
+docker compose down -v
+```
+
+## Run the producer 
+```
+docker compose --profile producer up kafka-producer
+```
+
+## Run the Spark program
+```
+docker exec spark-master spark-submit \
+  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
+  /opt/spark-apps/simple_kafka_consumer.py
+```
+
+## Trigger the csv_merge_for_powerbi dag on Airflow UI
+- Go to http://localhost:8082/dags/csv_merge_for_powerbi
+- Turn it on
+
+## Cat the merge download csv file
+```
+chmod +x download_csv_from_hdfs.sh
+./download_csv_from_hdfs.sh
+```
