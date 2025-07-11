@@ -1,0 +1,4 @@
+# Kafka Producer Requirements
+kafka-python==2.0.2
+pandas==2.1.4
+python-dateutil==2.8.2

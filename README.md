@@ -66,3 +66,28 @@ ODAP_pipeline/
 ## 🧪 Testing từng phase
 
 Mỗi phase sẽ có test riêng để đảm bảo hoạt động đúng trước khi chuyển sang phase tiếp theo.
+
+## ⚡ Performance Improvements
+
+### Recent Spark Configuration Optimizations:
+
+#### Resource Allocation:
+- **Spark Worker Memory**: Increased from 2G to 3G (configured in docker-compose.yml)
+- **Executor Memory**: Increased from 1G to 2G for better processing performance
+- **Driver Memory**: Increased from 512m to 1G for better coordination
+- **Executor Cores**: Increased from 1 to 2 for parallel processing
+- **Total Cores**: Optimized for better resource utilization
+
+#### Memory Management:
+- **Memory Fraction**: Optimized to 0.7 (from 0.6) for better memory usage
+- **Storage Fraction**: Maintained at 0.3 for optimal caching
+- **Adaptive Query Optimization**: Enhanced with parallelism-first coalescing
+
+#### Simple Analytics Mode:
+- **Console Output**: Simplified analytics output to console instead of Delta Lake
+- **Reduced Complexity**: Avoids Delta Lake overhead for better performance
+- **Faster Startup**: Optimized initialization to prevent hanging
+
+### Scripts Updated:
+- `submit_simple_spark_job.sh`: Updated with new resource configurations
+- `simple_credit_card_analytics.py`: Enhanced with optimized Spark settings

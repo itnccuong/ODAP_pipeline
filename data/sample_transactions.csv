@@ -1,0 +1,21 @@
+User,Card,Year,Month,Day,Time,Amount,Use Chip,Merchant Name,Merchant City,Merchant State,Zip,MCC,Errors?,Is Fraud?
+user001,4532123456789012,2024,1,15,14:30:25,125.50,Chip Transaction,Starbucks Coffee,New York,NY,10001,5814,No,No
+user002,5555123456789012,2024,1,15,09:15:10,89.99,Swipe Transaction,Amazon Store,Seattle,WA,98101,5399,No,No
+user003,4111123456789012,2024,1,15,18:45:30,2500.00,Chip Transaction,Electronics Plus,Los Angeles,CA,90210,5732,No,Yes
+user004,4000123456789012,2024,1,15,12:20:15,45.75,Chip Transaction,McDonald's,Chicago,IL,60601,5814,No,No
+user001,4532123456789012,2024,1,15,14:35:40,8.99,Chip Transaction,Subway,New York,NY,10001,5814,No,No
+user005,3782123456789012,2024,1,15,20:10:55,199.99,Swipe Transaction,Target Store,Miami,FL,33101,5411,No,No
+user002,5555123456789012,2024,1,15,09:20:30,1500.00,Chip Transaction,Apple Store,Seattle,WA,98101,5732,No,Yes
+user006,4532123456789013,2024,1,15,16:30:20,67.50,Chip Transaction,Gas Station,Houston,TX,77001,5541,No,No
+user007,5105123456789012,2024,1,15,11:45:15,234.99,Chip Transaction,Best Buy,Phoenix,AZ,85001,5732,No,No
+user003,4111123456789012,2024,1,15,19:15:45,3000.00,Swipe Transaction,Luxury Goods,Los Angeles,CA,90210,5944,No,Yes
+user008,4716123456789012,2024,1,15,08:30:10,15.99,Chip Transaction,Coffee Shop,Portland,OR,97201,5814,No,No
+user004,4000123456789012,2024,1,15,13:45:25,156.78,Chip Transaction,Grocery Store,Chicago,IL,60601,5411,No,No
+user009,5555123456789013,2024,1,15,15:20:30,89.99,Chip Transaction,Bookstore,Boston,MA,02101,5942,No,No
+user010,4532123456789014,2024,1,15,17:10:40,45.50,Swipe Transaction,Restaurant,Denver,CO,80201,5812,No,No
+user001,4532123456789012,2024,1,15,14:40:50,12.99,Chip Transaction,Parking Meter,New York,NY,10001,7523,No,No
+user005,3782123456789012,2024,1,15,21:30:15,299.99,Chip Transaction,Department Store,Miami,FL,33101,5311,No,No
+user011,4111123456789013,2024,1,15,10:15:20,1899.99,Chip Transaction,Jewelry Store,Las Vegas,NV,89101,5944,No,Yes
+user006,4532123456789013,2024,1,15,16:45:30,78.90,Chip Transaction,Pharmacy,Houston,TX,77001,5912,No,No
+user012,5105123456789013,2024,1,15,14:20:40,125.00,Swipe Transaction,Hotel,San Francisco,CA,94101,7011,No,No
+user002,5555123456789012,2024,1,15,09:50:25,25.99,Chip Transaction,Fast Food,Seattle,WA,98101,5814,No,No

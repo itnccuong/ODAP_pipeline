@@ -1,10 +1,10 @@
 version: '3.8'
 services:
   # Kafka Cluster
-  kafka-broker-1:
+  kafka-broker:
     image: confluentinc/cp-kafka:7.5.0
-    hostname: kafka-broker-1
-    container_name: kafka-broker-1
+    hostname: kafka-broker
+    container_name: kafka-broker
     user: root
     ports:
       - "9092:9092"
@@ -12,18 +12,18 @@ services:
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-broker-1:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-broker:29092,PLAINTEXT_HOST://localhost:9092'
       KAFKA_METRICS_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094
-      KAFKA_CONFLUENT_METRICS_REPORTER_TOOL_REPLICAS: 3
+      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka-broker:29092
+      KAFKA_CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       KAFKA_CONFLUENT_METRICS_ENABLE: 'true'
       KAFKA_CONFLUENT_SUPPORT_CUSTOMER_ID: anonymous
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-broker-1:29091,2@kafka-broker-2:29091,3@kafka-broker-3:29091'
-      KAFKA_LISTENERS: 'PLAINTEXT://kafka-broker-1:29092,CONTROLLER://kafka-broker-1:29091,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-broker:29091'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka-broker:29092,CONTROLLER://kafka-broker:29091,PLAINTEXT_HOST://0.0.0.0:9092'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_LOG_DIRS: '/var/lib/kafka/data'
@@ -31,7 +31,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
     volumes:
-      - kafka-broker-1-data:/var/lib/kafka/data
+      - kafka-broker-data:/var/lib/kafka/data
     networks:
       - kafka-network
     command: >
@@ -47,117 +47,21 @@ services:
       timeout: 10s
       retries: 3
 
-  kafka-broker-2:
-    image: confluentinc/cp-kafka:7.5.0
-    hostname: kafka-broker-2
-    container_name: kafka-broker-2
-    user: root
-    ports:
-      - "9093:9093"
-      - "9102:9102"
-    environment:
-      KAFKA_NODE_ID: 2
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-broker-2:29093,PLAINTEXT_HOST://localhost:9093'
-      KAFKA_METRICS_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094
-      KAFKA_CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 3
-      KAFKA_CONFLUENT_METRICS_ENABLE: 'true'
-      KAFKA_CONFLUENT_SUPPORT_CUSTOMER_ID: anonymous
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-broker-1:29091,2@kafka-broker-2:29091,3@kafka-broker-3:29091'
-      KAFKA_LISTENERS: 'PLAINTEXT://kafka-broker-2:29093,CONTROLLER://kafka-broker-2:29091,PLAINTEXT_HOST://0.0.0.0:9093'
-      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
-      KAFKA_LOG_DIRS: '/var/lib/kafka/data'
-      KAFKA_JMX_PORT: 9102
-      KAFKA_JMX_HOSTNAME: localhost
-      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
-    volumes:
-      - kafka-broker-2-data:/var/lib/kafka/data
-    networks:
-      - kafka-network
-    command: >
-      bash -c "
-        echo 'Formatting storage...' &&
-        kafka-storage format --config /etc/kafka/kafka.properties --cluster-id MkU3OEVBNTcwNTJENDM2Qk --ignore-formatted 2>/dev/null || true &&
-        echo 'Starting Kafka...' &&
-        /etc/confluent/docker/run
-      "
-    healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9093"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  kafka-broker-3:
-    image: confluentinc/cp-kafka:7.5.0
-    hostname: kafka-broker-3
-    container_name: kafka-broker-3
-    user: root
-    ports:
-      - "9094:9094"
-      - "9103:9103"
-    environment:
-      KAFKA_NODE_ID: 3
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-broker-3:29094,PLAINTEXT_HOST://localhost:9094'
-      KAFKA_METRICS_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094
-      KAFKA_CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 3
-      KAFKA_CONFLUENT_METRICS_ENABLE: 'true'
-      KAFKA_CONFLUENT_SUPPORT_CUSTOMER_ID: anonymous
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-broker-1:29091,2@kafka-broker-2:29091,3@kafka-broker-3:29091'
-      KAFKA_LISTENERS: 'PLAINTEXT://kafka-broker-3:29094,CONTROLLER://kafka-broker-3:29091,PLAINTEXT_HOST://0.0.0.0:9094'
-      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
-      KAFKA_LOG_DIRS: '/var/lib/kafka/data'
-      KAFKA_JMX_PORT: 9103
-      KAFKA_JMX_HOSTNAME: localhost
-      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
-    volumes:
-      - kafka-broker-3-data:/var/lib/kafka/data
-    networks:
-      - kafka-network
-    command: >
-      bash -c "
-        echo 'Formatting storage...' &&
-        kafka-storage format --config /etc/kafka/kafka.properties --cluster-id MkU3OEVBNTcwNTJENDM2Qk --ignore-formatted 2>/dev/null || true &&
-        echo 'Starting Kafka...' &&
-        /etc/confluent/docker/run
-      "
-    healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9094"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
   schema-registry:
     image: confluentinc/cp-schema-registry:7.5.0
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
-      kafka-broker-1:
-        condition: service_healthy
-      kafka-broker-2:
-        condition: service_healthy
-      kafka-broker-3:
+      kafka-broker:
         condition: service_healthy
     ports:
       - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094'
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
-      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 3
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
       SCHEMA_REGISTRY_DEBUG: 'false'
     volumes:
       - schema-registry-data:/etc/schema-registry/secrets
@@ -174,25 +78,21 @@ services:
     hostname: kafka-connect
     container_name: kafka-connect
     depends_on:
-      kafka-broker-1:
-        condition: service_healthy
-      kafka-broker-2:
-        condition: service_healthy
-      kafka-broker-3:
+      kafka-broker:
         condition: service_healthy
       schema-registry:
         condition: service_healthy
     ports:
       - "8083:8083"
     environment:
-      BOOTSTRAP_SERVERS: kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094
+      BOOTSTRAP_SERVERS: kafka-broker:29092
       GROUP_ID: kafka-connect-cluster
       CONFIG_STORAGE_TOPIC: connect-configs
-      CONFIG_STORAGE_REPLICATION_FACTOR: 3
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
       OFFSET_STORAGE_TOPIC: connect-offsets
-      OFFSET_STORAGE_REPLICATION_FACTOR: 3
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
       STATUS_STORAGE_TOPIC: connect-status
-      STATUS_STORAGE_REPLICATION_FACTOR: 3
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
@@ -210,23 +110,21 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8083/connectors"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     depends_on:
-      kafka-broker-1:
-        condition: service_healthy
-      kafka-broker-2:
-        condition: service_healthy
-      kafka-broker-3:
+      kafka-broker:
         condition: service_healthy
     ports:
       - "8080:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: main
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
@@ -250,24 +148,11 @@ services:
     networks:
       - kafka-network
 
-  datanode-1:
+  datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-    container_name: datanode-1
+    container_name: datanode
     volumes:
-      - hadoop-datanode-1:/hadoop/dfs/data
-    environment:
-      SERVICE_PRECONDITION: "namenode:9870"
-      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
-    env_file:
-      - ./hadoop.env
-    networks:
-      - kafka-network
-
-  datanode-2:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-    container_name: datanode-2
-    volumes:
-      - hadoop-datanode-2:/hadoop/dfs/data
+      - hadoop-datanode:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
@@ -295,35 +180,15 @@ services:
     networks:
       - kafka-network
 
-  spark-worker-1:
+  spark-worker:
     image: bitnami/spark:3.4
-    container_name: spark-worker-1
+    container_name: spark-worker
     depends_on:
       - spark-master
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_MEMORY=2G
-      - SPARK_WORKER_CORES=2
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-    volumes:
-      - ./spark-apps:/opt/spark-apps
-      - ./spark-data:/opt/spark-data
-    networks:
-      - kafka-network
-
-  spark-worker-2:
-    image: bitnami/spark:3.4
-    container_name: spark-worker-2
-    depends_on:
-      - spark-master
-    environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_MEMORY=2G
+      - SPARK_WORKER_MEMORY=3G
       - SPARK_WORKER_CORES=2
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
@@ -357,7 +222,7 @@ services:
       AIRFLOW__METRICS__STATSD_PREFIX: "airflow"
       AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
       # Connection strings for our services
-      AIRFLOW_CONN_KAFKA_DEFAULT: 'kafka://kafka-broker-1:29092,kafka-broker-2:29093,kafka-broker-3:29094'
+      AIRFLOW_CONN_KAFKA_DEFAULT: 'kafka://kafka-broker:29092'
       AIRFLOW_CONN_SPARK_DEFAULT: 'spark://spark-master:7077'
     volumes:
       - ./dags:/opt/airflow/dags
@@ -466,20 +331,43 @@ services:
       start_period: 30s
     restart: always
 
+  # Kafka Producer for CSV Data
+  kafka-producer:
+    build:
+      context: .
+      dockerfile: Dockerfile.producer
+    image: odap_kafka_producer:latest
+    container_name: kafka-producer
+    depends_on:
+      kafka-broker:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+    environment:
+      - KAFKA_BROKERS=kafka-broker:29092
+      - KAFKA_TOPIC=credit-card-transactions
+    command: >
+      python kafka_producer.py
+      --csv-file /app/data/sample_transactions.csv
+      --topic credit-card-transactions
+      --brokers kafka-broker:29092
+      --loop
+    networks:
+      - kafka-network
+    profiles:
+      - producer
+
 networks:
   kafka-network:
     driver: bridge
 
 volumes:
   # Kafka volumes
-  kafka-broker-1-data:
-  kafka-broker-2-data:
-  kafka-broker-3-data:
+  kafka-broker-data:
   schema-registry-data:
   kafka-connect-data:
   # Hadoop volumes
   hadoop-namenode:
-  hadoop-datanode-1:
-  hadoop-datanode-2:
+  hadoop-datanode:
   # Airflow volumes
   postgres-db-volume:
