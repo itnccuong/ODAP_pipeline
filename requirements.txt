@@ -5,6 +5,17 @@ apache-airflow-providers-apache-spark==5.3.0
 # Optional: Kafka client cho health checks và monitoring
 kafka-python==2.0.2
 
+# HDFS client for Airflow to interact with HDFS - both hdfs and pyarrow are needed
+pyarrow==14.0.1
+
 # Utility Libraries cho DAGs
 python-dateutil==2.8.2
 requests==2.31.0
+pandas==2.0.0
+
+# Add additional libraries needed for HDFS connectivity
+simplejson>=3.17.0
+typing-extensions>=4.0.0
+
+pyhdfs>=0.3.1
+hdfs>=2.7.0
