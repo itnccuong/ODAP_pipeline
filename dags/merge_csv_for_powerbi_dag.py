@@ -1,8 +1,3 @@
-"""
-Airflow DAG that merges CSV files from Spark streaming job every 20 seconds
-and places them in a PowerBI ready format in HDFS
-"""
-
 import os
 import io
 import re
@@ -12,7 +7,6 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 import pyhdfs
 
-# Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -22,46 +16,35 @@ default_args = {
     'retry_delay': timedelta(seconds=5),
 }
 
-# HDFS connection parameters
 HDFS_HOST = 'namenode'
 HDFS_PORT = 9870
 HDFS_USER = 'hdfs'
 
-# CSV paths
 HDFS_SOURCE_PATH = "/delta-lake/credit-card-analytics/simple_consumer/csv_output"
 HDFS_POWERBI_PATH = "/powerBI_ready"
 POWERBI_FILENAME = "credit_card_transactions_merged.csv"
 
-# Python function to merge CSV files in HDFS and save to PowerBI ready location
 def merge_csv_for_powerbi(**kwargs):
     import subprocess
     import tempfile
     import time
-    import pandas as pd
     
-    # HDFS client configuration - use the namenode service running in the docker network
     hdfs_client = pyhdfs.HdfsClient(hosts=f'{HDFS_HOST}:{HDFS_PORT}', user_name=HDFS_USER)
     
-    # Create a timestamp for the temp directory
     timestamp = int(time.time())
     
-    # Create a temporary directory for this execution
     temp_dir = f"/tmp/airflow_merge_{timestamp}"
     os.makedirs(temp_dir, exist_ok=True)
     
     try:
         print(f"⏳ Starting CSV merge process for PowerBI at {datetime.now()}")
         
-        # Step 1: Get list of CSV files in the source directory
         try:
-            # Check if directory exists
             if not hdfs_client.exists(HDFS_SOURCE_PATH):
                 print(f"⚠️ Source directory {HDFS_SOURCE_PATH} does not exist in HDFS")
                 return
                 
-            # List all files in the HDFS directory
             file_list = hdfs_client.listdir(HDFS_SOURCE_PATH)
-            # Filter for CSV files that match the part-*.csv pattern
             csv_files = [f for f in file_list if re.match(r'part-.*\.csv', f)]
             
             if not csv_files:
@@ -72,70 +55,88 @@ def merge_csv_for_powerbi(**kwargs):
             print(f"⚠️ Error listing files in HDFS: {str(e)}")
             return
         
-        all_dataframes = []
+        merged_lines = []
+        header_written = False
+        expected_columns = None
         
-        # Step 2: Process each CSV file
         for i, file_name in enumerate(csv_files):
             full_hdfs_path = f"{HDFS_SOURCE_PATH}/{file_name}"
             local_file_path = os.path.join(temp_dir, file_name)
             
             try:
-                # Download file from HDFS to the temporary directory
                 with open(local_file_path, 'wb') as local_file:
                     file_data = hdfs_client.open(full_hdfs_path)
                     local_file.write(file_data.read())
                 
                 print(f"📥 Downloaded {file_name}")
                 
-                # Read the CSV file
-                if i == 0:
-                    # For the first file, keep the header
-                    df = pd.read_csv(local_file_path)
-                else:
-                    # For subsequent files, skip the header
-                    df = pd.read_csv(local_file_path, skiprows=1)
+                with open(local_file_path, 'r', encoding='utf-8') as file:
+                    lines = file.readlines()
                 
-                all_dataframes.append(df)
+                if not lines:
+                    print(f"⚠️ File {file_name} is empty")
+                    continue
+                
+                for line_num, line in enumerate(lines):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    
+                    columns = line.split(',')
+                    
+                    if line_num == 0:  # Header line
+                        if not header_written:
+                            # First file - use its header as the standard
+                            expected_columns = len(columns)
+                            merged_lines.append(line)
+                            header_written = True
+                            print(f"✅ Header set with {expected_columns} columns: {line[:100]}...")
+                        else:
+                            # Skip headers from subsequent files
+                            print(f"⏭️ Skipping header from {file_name}")
+                            continue
+                    else:
+                        # Data line - validate column count
+                        if expected_columns and len(columns) == expected_columns:
+                            merged_lines.append(line)
+                        else:
+                            print(f"⚠️ Skipping malformed line in {file_name} (expected {expected_columns} columns, got {len(columns)}): {line[:100]}...")
+                
+                print(f"✅ Processed {file_name} successfully")
                 
             except Exception as e:
                 print(f"⚠️ Error processing file {file_name}: {str(e)}")
                 continue
         
-        if not all_dataframes:
-            print("⚠️ No data was read from any CSV file")
+        if len(merged_lines) <= 1:  # Only header or no data
+            print("⚠️ No valid data was read from any CSV file")
             return
             
-        # Step 3: Concatenate all dataframes
-        merged_df = pd.concat(all_dataframes, ignore_index=True)
         merged_file = os.path.join(temp_dir, POWERBI_FILENAME)
+        with open(merged_file, 'w', encoding='utf-8') as output_file:
+            for line in merged_lines:
+                output_file.write(line + '\n')
         
-        # Save the merged dataframe to a CSV file
-        merged_df.to_csv(merged_file, index=False)
+        print(f"✅ Successfully merged {len(csv_files)} CSV files into {len(merged_lines)} lines")
         
-        print(f"✅ Successfully merged {len(all_dataframes)} CSV files")
-        
-        # Step 4: Create PowerBI directory in HDFS if it doesn't exist
         if not hdfs_client.exists(HDFS_POWERBI_PATH):
             hdfs_client.mkdirs(HDFS_POWERBI_PATH)
         
-        # Step 5: Upload merged file to HDFS PowerBI location
         with open(merged_file, 'rb') as local_file:
             hdfs_client.create(f"{HDFS_POWERBI_PATH}/{POWERBI_FILENAME}", local_file.read(), overwrite=True)
         
         print(f"✅ Successfully uploaded merged CSV to {HDFS_POWERBI_PATH}/{POWERBI_FILENAME}")
         
-        # Optional: Count lines in the merged file
-        line_count = len(merged_df) + 1  # +1 for the header
-        print(f"📊 Merged file contains {line_count} lines")
+        line_count = len(merged_lines)
+        data_rows = line_count - 1 if line_count > 0 else 0  # Subtract header
+        print(f"📊 Merged file contains {line_count} total lines ({data_rows} data rows + 1 header)")
         
     finally:
-        # Clean up temporary files
         import shutil
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
         print(f"🧹 Cleaned up temporary directory {temp_dir}")
 
-# Create the DAG
 dag = DAG(
     'csv_merge_for_powerbi',
     default_args=default_args,
@@ -147,12 +148,10 @@ dag = DAG(
     tags=['csv', 'merge', 'powerbi'],
 )
 
-# Function to check HDFS connection
 def check_hdfs_connection(**kwargs):
     import pyhdfs
     
     try:
-        # Try to connect to HDFS and list root directory
         hdfs_client = pyhdfs.HdfsClient(hosts=f'{HDFS_HOST}:{HDFS_PORT}', user_name=HDFS_USER)
         root_files = hdfs_client.listdir('/')
         print(f"✅ Successfully connected to HDFS. Root directory contains: {root_files}")
@@ -161,19 +160,16 @@ def check_hdfs_connection(**kwargs):
         print(f"❌ Failed to connect to HDFS: {str(e)}")
         raise
 
-# Create a task to check if we can connect to HDFS
 check_hdfs_task = PythonOperator(
     task_id='check_hdfs_connection',
     python_callable=check_hdfs_connection,
     dag=dag,
 )
 
-# Create merge CSV task
 merge_csv_task = PythonOperator(
     task_id='merge_csv_files',
     python_callable=merge_csv_for_powerbi,
     dag=dag,
 )
 
-# Task dependencies
 check_hdfs_task >> merge_csv_task

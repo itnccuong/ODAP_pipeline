@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Simple Kafka Consumer for Credit Card Transactions
-This script reads messages from a Kafka topic and prints them to the console.
-"""
-
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
     col, from_json, concat_ws, split, when, 
@@ -12,10 +6,6 @@ from pyspark.sql.functions import (
 from pyspark.sql.types import *
 
 def main():
-    """
-    Simple Kafka to Console application
-    Reads messages from Kafka and prints them to console in append mode
-    """
     # Configuration
     KAFKA_SERVERS = "kafka-broker:29092"
     TOPIC_NAME = "credit-card-transactions"
@@ -24,17 +14,18 @@ def main():
     
     print("🚀 Starting Simple Kafka to Console Application...")
     
-    # Initialize Spark session with Kafka connector packages included
     spark = SparkSession.builder \
         .appName("SimpleKafkaConsumer") \
+        .config("spark.executor.memory", "2g") \
+        .config("spark.executor.cores", "2") \
+        .config("spark.cores.max", "2") \
+        .config("spark.driver.memory", "1g") \
         .getOrCreate()
     
-    # Set log level to WARN to reduce console output noise
     spark.sparkContext.setLogLevel("WARN")
     
     print("✅ Spark Session initialized")
     
-    # Schema for transaction data
     transaction_schema = StructType([
         StructField("user_id", StringType(), True),
         StructField("card_number", StringType(), True),
@@ -55,7 +46,6 @@ def main():
         StructField("source", StringType(), True)
     ])
     
-    # Read from Kafka with minimal configuration
     kafka_df = spark \
         .readStream \
         .format("kafka") \
@@ -64,7 +54,6 @@ def main():
         .option("startingOffsets", "latest") \
         .load()
     
-    # Parse JSON data with the provided schema
     parsed_df = kafka_df.select(
         col("key").cast("string").alias("message_key"),
         col("value").cast("string").alias("message_value"),
@@ -79,7 +68,6 @@ def main():
         col("transaction.*")
     )
     
-    # Enrich data with derived columns
     enriched_df = parsed_df \
         .withColumn("transaction_datetime", 
                    concat_ws(" ", 
@@ -96,12 +84,10 @@ def main():
                    .otherwise("Very Large")) \
         .withColumn("processing_time", current_timestamp())
     
-    # Use the enriched DataFrame for further processing
     df = enriched_df
     
     print(f"✅ Kafka stream created for topic: {TOPIC_NAME} with enrichment transformations")
     
-    # Define the path for CSV output
     csv_output_path = f"{OUTPUT_PATH}/simple_consumer/csv_output"
     csv_checkpoint_path = f"{CHECKPOINT_BASE_PATH}/simple_consumer/csv_checkpoint"
     
@@ -131,7 +117,6 @@ def main():
     # Wait for the streams to terminate
     try:
         print("⏵️ Streaming is active. Press Ctrl+C to stop...")
-        # Wait for either query to terminate
         spark.streams.awaitAnyTermination()
     except KeyboardInterrupt:
         print("⏹️ Stopping streams due to user interruption...")

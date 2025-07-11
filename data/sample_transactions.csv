@@ -19,3 +19,90 @@ user011,4111123456789013,2024,1,15,10:15:20,1899.99,Chip Transaction,Jewelry Sto
 user006,4532123456789013,2024,1,15,16:45:30,78.90,Chip Transaction,Pharmacy,Houston,TX,77001,5912,No,No
 user012,5105123456789013,2024,1,15,14:20:40,125.00,Swipe Transaction,Hotel,San Francisco,CA,94101,7011,No,No
 user002,5555123456789012,2024,1,15,09:50:25,25.99,Chip Transaction,Fast Food,Seattle,WA,98101,5814,No,No
+user013,4532123456789015,2024,1,16,08:15:30,34.99,Chip Transaction,Walmart,Dallas,TX,75201,5411,No,No
+user014,5555123456789014,2024,1,16,11:22:45,189.99,Chip Transaction,Home Depot,Atlanta,GA,30301,5211,No,No
+user015,4111123456789014,2024,1,16,14:33:20,2800.00,Swipe Transaction,Casino,Las Vegas,NV,89101,7995,No,Yes
+user007,5105123456789012,2024,1,16,16:45:10,67.89,Chip Transaction,Shell Gas,Phoenix,AZ,85001,5541,No,No
+user016,3782123456789013,2024,1,16,19:10:55,1200.00,Chip Transaction,Louis Vuitton,Beverly Hills,CA,90210,5094,No,Yes
+user008,4716123456789012,2024,1,16,09:30:15,22.50,Chip Transaction,Dunkin Donuts,Portland,OR,97201,5814,No,No
+user017,4000123456789013,2024,1,16,12:15:40,89.99,Chip Transaction,CVS Pharmacy,Minneapolis,MN,55401,5912,No,No
+user018,5555123456789015,2024,1,16,15:45:25,145.75,Swipe Transaction,Nordstrom,San Diego,CA,92101,5651,No,No
+user019,4532123456789016,2024,1,16,18:20:30,56.99,Chip Transaction,Olive Garden,Orlando,FL,32801,5812,No,No
+user003,4111123456789012,2024,1,16,20:55:45,4500.00,Chip Transaction,Rolex Store,New York,NY,10001,5944,No,Yes
+user020,5105123456789014,2024,1,16,07:30:10,15.99,Chip Transaction,7-Eleven,Tampa,FL,33601,5499,No,No
+user014,5555123456789014,2024,1,16,10:45:20,234.56,Chip Transaction,Costco,Atlanta,GA,30301,5399,No,No
+user021,4716123456789013,2024,1,16,13:22:35,78.90,Swipe Transaction,Chipotle,Nashville,TN,37201,5814,No,No
+user009,5555123456789013,2024,1,16,16:10:15,299.99,Chip Transaction,Barnes & Noble,Boston,MA,02101,5942,No,No
+user022,3782123456789014,2024,1,16,19:35:50,1500.00,Chip Transaction,Tiffany & Co,Chicago,IL,60601,5944,No,Yes
+user023,4532123456789017,2024,1,16,08:45:25,45.67,Chip Transaction,Mobil Gas,Kansas City,MO,64101,5541,No,No
+user024,4111123456789015,2024,1,16,11:20:40,167.89,Chip Transaction,Macy's,Detroit,MI,48201,5651,No,No
+user012,5105123456789013,2024,1,16,14:55:15,89.99,Swipe Transaction,Marriott Hotel,San Francisco,CA,94101,7011,No,No
+user025,5555123456789016,2024,1,16,17:30:30,234.50,Chip Transaction,Whole Foods,Austin,TX,78701,5411,No,No
+user013,4532123456789015,2024,1,16,20:15:45,12.99,Chip Transaction,McDonald's,Dallas,TX,75201,5814,No,No
+user026,4000123456789014,2024,1,17,08:20:10,78.99,Chip Transaction,Walgreens,Cleveland,OH,44101,5912,No,No
+user027,4716123456789014,2024,1,17,11:45:25,456.78,Chip Transaction,Best Buy,Columbus,OH,43201,5732,No,No
+user015,4111123456789014,2024,1,17,14:30:40,3200.00,Swipe Transaction,Luxury Casino,Las Vegas,NV,89101,7995,No,Yes
+user028,5105123456789015,2024,1,17,17:10:55,89.50,Chip Transaction,Target,Indianapolis,IN,46201,5411,No,No
+user016,3782123456789013,2024,1,17,19:55:15,2100.00,Chip Transaction,Gucci Store,Beverly Hills,CA,90210,5094,No,Yes
+user029,5555123456789017,2024,1,17,09:25:30,34.99,Chip Transaction,Starbucks,Charlotte,NC,28201,5814,No,No
+user030,4532123456789018,2024,1,17,12:40:45,145.67,Swipe Transaction,Office Depot,Raleigh,NC,27601,5943,No,No
+user018,5555123456789015,2024,1,17,15:15:20,278.90,Chip Transaction,Saks Fifth Avenue,San Diego,CA,92101,5651,No,No
+user031,4111123456789016,2024,1,17,18:30:35,67.89,Chip Transaction,Red Lobster,Virginia Beach,VA,23451,5812,No,No
+user019,4532123456789016,2024,1,17,21:45:50,89.99,Chip Transaction,TGI Friday's,Orlando,FL,32801,5812,No,No
+user032,4000123456789015,2024,1,17,07:15:10,23.45,Chip Transaction,Subway,Jacksonville,FL,32201,5814,No,No
+user020,5105123456789014,2024,1,17,10:30:25,56.78,Chip Transaction,Circle K,Tampa,FL,33601,5541,No,No
+user033,3782123456789015,2024,1,17,13:45:40,1800.00,Chip Transaction,Cartier,Miami,FL,33101,5944,No,Yes
+user021,4716123456789013,2024,1,17,16:20:55,78.90,Swipe Transaction,Panera Bread,Nashville,TN,37201,5814,No,No
+user034,5555123456789018,2024,1,17,19:35:15,234.56,Chip Transaction,Lowe's,Memphis,TN,38101,5211,No,No
+user022,3782123456789014,2024,1,17,22:10:30,2500.00,Chip Transaction,Bulgari,Chicago,IL,60601,5944,No,Yes
+user035,4532123456789019,2024,1,18,08:25:45,45.67,Chip Transaction,BP Gas,Milwaukee,WI,53201,5541,No,No
+user023,4532123456789017,2024,1,18,11:40:20,89.99,Chip Transaction,Exxon,Kansas City,MO,64101,5541,No,No
+user036,4111123456789017,2024,1,18,14:55:35,167.89,Chip Transaction,JCPenney,St. Louis,MO,63101,5651,No,No
+user024,4111123456789015,2024,1,18,17:30:50,234.50,Swipe Transaction,Bloomingdale's,Detroit,MI,48201,5651,No,No
+user037,5105123456789016,2024,1,18,20:15:15,78.90,Chip Transaction,Kroger,Louisville,KY,40201,5411,No,No
+user025,5555123456789016,2024,1,18,09:40:30,345.67,Chip Transaction,Trader Joe's,Austin,TX,78701,5411,No,No
+user038,4000123456789016,2024,1,18,12:25:45,56.78,Chip Transaction,Rite Aid,Oklahoma City,OK,73101,5912,No,No
+user026,4000123456789014,2024,1,18,15:50:20,89.99,Chip Transaction,Walgreens,Cleveland,OH,44101,5912,No,No
+user039,4716123456789015,2024,1,18,18:35:35,456.78,Chip Transaction,Fry's Electronics,Albuquerque,NM,87101,5732,No,No
+user027,4716123456789014,2024,1,18,21:20:50,234.56,Chip Transaction,RadioShack,Columbus,OH,43201,5732,No,No
+user040,5555123456789019,2024,1,18,08:15:15,67.89,Chip Transaction,Subway,Salt Lake City,UT,84101,5814,No,No
+user028,5105123456789015,2024,1,18,11:30:30,145.67,Chip Transaction,Meijer,Indianapolis,IN,46201,5411,No,No
+user041,3782123456789016,2024,1,18,14:45:45,2800.00,Swipe Transaction,Hermes,Scottsdale,AZ,85251,5094,No,Yes
+user029,5555123456789017,2024,1,18,17:20:20,45.67,Chip Transaction,Dunkin Donuts,Charlotte,NC,28201,5814,No,No
+user042,4532123456789020,2024,1,18,20:35:35,123.45,Chip Transaction,Staples,Birmingham,AL,35201,5943,No,No
+user030,4532123456789018,2024,1,18,09:50:50,189.99,Swipe Transaction,OfficeMax,Raleigh,NC,27601,5943,No,No
+user043,4111123456789018,2024,1,19,08:25:15,78.90,Chip Transaction,Applebee's,Little Rock,AR,72201,5812,No,No
+user031,4111123456789016,2024,1,19,11:40:30,89.99,Chip Transaction,Chili's,Virginia Beach,VA,23451,5812,No,No
+user044,5105123456789017,2024,1,19,14:55:45,234.56,Chip Transaction,Publix,Jackson,MS,39201,5411,No,No
+user032,4000123456789015,2024,1,19,17:30:20,34.50,Chip Transaction,Quiznos,Jacksonville,FL,32201,5814,No,No
+user045,4716123456789016,2024,1,19,20:15:35,567.89,Chip Transaction,Micro Center,Baton Rouge,LA,70801,5732,No,No
+user033,3782123456789015,2024,1,19,09:40:50,3500.00,Chip Transaction,Van Cleef & Arpels,Miami,FL,33101,5944,No,Yes
+user046,5555123456789020,2024,1,19,12:25:15,67.89,Chip Transaction,Tim Hortons,Montgomery,AL,36101,5814,No,No
+user034,5555123456789018,2024,1,19,15:50:30,345.67,Chip Transaction,Menards,Memphis,TN,38101,5211,No,No
+user047,4532123456789021,2024,1,19,18:35:45,123.45,Chip Transaction,FedEx Office,Columbia,SC,29201,7372,No,No
+user035,4532123456789019,2024,1,19,21:20:20,78.90,Chip Transaction,Chevron,Milwaukee,WI,53201,5541,No,No
+user048,4000123456789017,2024,1,19,08:15:35,45.67,Chip Transaction,CVS,Tallahassee,FL,32301,5912,No,No
+user036,4111123456789017,2024,1,19,11:30:50,234.56,Chip Transaction,Dillard's,St. Louis,MO,63101,5651,No,No
+user049,3782123456789017,2024,1,19,14:45:15,1950.00,Swipe Transaction,Chanel,Atlanta,GA,30301,5094,No,Yes
+user037,5105123456789016,2024,1,19,17:20:30,89.99,Chip Transaction,Harris Teeter,Louisville,KY,40201,5411,No,No
+user050,4716123456789017,2024,1,19,20:35:45,456.78,Chip Transaction,CompUSA,Frankfort,KY,40601,5732,No,No
+user038,4000123456789016,2024,1,19,09:50:20,67.89,Chip Transaction,Duane Reade,Oklahoma City,OK,73101,5912,No,No
+user051,5555123456789021,2024,1,20,08:25:35,123.45,Chip Transaction,Panda Express,Des Moines,IA,50301,5814,No,No
+user039,4716123456789015,2024,1,20,11:40:50,567.89,Chip Transaction,Newegg Store,Albuquerque,NM,87101,5732,No,No
+user052,4532123456789022,2024,1,20,14:55:15,78.90,Chip Transaction,UPS Store,Topeka,KS,66601,7372,No,No
+user040,5555123456789019,2024,1,20,17:30:30,89.99,Chip Transaction,Jimmy John's,Salt Lake City,UT,84101,5814,No,No
+user053,4111123456789019,2024,1,20,20:15:45,345.67,Chip Transaction,Outback Steakhouse,Cheyenne,WY,82001,5812,No,No
+user041,3782123456789016,2024,1,20,09:40:20,4200.00,Chip Transaction,Patek Philippe,Scottsdale,AZ,85251,5944,No,Yes
+user054,5105123456789018,2024,1,20,12:25:35,234.56,Chip Transaction,Food Lion,Helena,MT,59601,5411,No,No
+user042,4532123456789020,2024,1,20,15:50:50,145.67,Chip Transaction,Best Buy,Birmingham,AL,35201,5732,No,No
+user055,4000123456789018,2024,1,20,18:35:15,56.78,Chip Transaction,Walgreens,Boise,ID,83701,5912,No,No
+user043,4111123456789018,2024,1,20,21:20:30,123.45,Chip Transaction,Texas Roadhouse,Little Rock,AR,72201,5812,No,No
+user056,4716123456789018,2024,1,20,08:15:45,678.90,Chip Transaction,Tiger Direct,Concord,NH,03301,5732,No,No
+user044,5105123456789017,2024,1,20,11:30:20,234.56,Chip Transaction,Winn-Dixie,Jackson,MS,39201,5411,No,No
+user057,5555123456789022,2024,1,20,14:45:35,89.99,Chip Transaction,Five Guys,Montpelier,VT,05601,5814,No,No
+user045,4716123456789016,2024,1,20,17:20:50,567.89,Chip Transaction,J&R Electronics,Baton Rouge,LA,70801,5732,No,No
+user058,3782123456789018,2024,1,20,20:35:15,2750.00,Swipe Transaction,Harry Winston,Providence,RI,02901,5944,No,Yes
+user046,5555123456789020,2024,1,20,09:50:30,67.89,Chip Transaction,Krispy Kreme,Montgomery,AL,36101,5814,No,No
+user059,4532123456789023,2024,1,20,12:25:45,145.67,Chip Transaction,Kinko's,Hartford,CT,06101,7372,No,No
+user047,4532123456789021,2024,1,20,15:50:20,189.99,Chip Transaction,OfficeMax,Columbia,SC,29201,5943,No,No
+user060,4111123456789020,2024,1,20,18:35:35,78.90,Chip Transaction,Cracker Barrel,Dover,DE,19901,5812,No,No
